@@ -1,18 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Btn : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GameCTRL gameCtrl;
+    private Image myShape;
+    private Player flagPlayer;
+    private bool isSetPlayer = false;
+
+    [field:SerializeField]
+    private int myNum;
+
+    private void Start()
     {
-        
+        myShape = GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void click()
     {
-        
+        gameCtrl ??= GameCTRL.instance;
+
+        if (!isSetPlayer)
+        {
+            isSetPlayer = true;
+            flagPlayer = gameCtrl.SetClick(myNum);
+            SetShape(flagPlayer.GetShape());
+        }
     }
+
+    private void SetShape(Sprite _Shape)
+    {
+        myShape.sprite = _Shape;
+    }
+
 }
