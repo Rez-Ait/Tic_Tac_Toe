@@ -90,24 +90,29 @@ public class Player
         foreach (int myNum in numberClicks)
         {
             if (myNum % 3 == 1)
-                return CalcRow(myNum);
-            if (myNum <= 3)
-                return CalcColumn(myNum);
-            if (myNum == 1)
-                return CalcDiagonalToLeft(myNum);
+                if (Calc(myNum, 1))
+                    return true;
             if (myNum == 3)
-                return CalcDiagonalToRight(myNum);
+                if (Calc(myNum, 2))
+                    return true;
+            if (myNum <= 3)
+                if (Calc(myNum, 3))
+                    return true;
+            if (myNum == 1)
+                if (Calc(myNum, 4))
+                    return true;
         }
         return false;
     }
 
     private int tmpForCulc = 4;
-    private bool CalcDiagonalToRight(int num)
+
+
+    private bool Calc(int num, int countPlus)
     {
         int countTrue = 2;
-        tmpForCulc = 2;
-        foreach (int myNum in numberClicks)
-            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
+        foreach (int numCheck in numberClicks)
+            if (num + countPlus == numCheck || num + countPlus * 2 == numCheck)
             {
                 countTrue--;
                 if (countTrue == 0)
@@ -116,52 +121,67 @@ public class Player
 
         return false;
     }
-    private bool CalcDiagonalToLeft(int num)
-    {
-        int countTrue = 2;
-        tmpForCulc = 4;
+    //private bool CalcDiagonalToRight(int num)
+    //{
+    //    int countTrue = 2;
+    //    tmpForCulc = 2;
+    //    foreach (int myNum in numberClicks)
+    //        if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
+    //        {
+    //            countTrue--;
+    //            if (countTrue == 0)
+    //                return true;
+    //        }
 
-        foreach (int myNum in numberClicks)
-            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
-            {
-                countTrue--;
-                if (countTrue == 0)
-                    return true;
-            }
+    //    return false;
+    //}
 
-        return false;
-    }
+    //private bool CalcDiagonalToLeft(int num)
+    //{
+    //    int countTrue = 2;
+    //    tmpForCulc = 4;
 
-    private bool CalcColumn(int num)
-    {
-        int countTrue = 2;
-        tmpForCulc = 3;
-        foreach (int myNum in numberClicks)
-            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
-            {
-                countTrue--;
-                if (countTrue == 0)
-                    return true;
-            }
+    //    foreach (int myNum in numberClicks)
+    //        if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
+    //        {
+    //            countTrue--;
+    //            if (countTrue == 0)
+    //                return true;
+    //        }
 
-        return false;
-    }
+    //    return false;
+    //}
 
-    private bool CalcRow(int num)
-    {
-        int countTrue = 2;
-        tmpForCulc = 1;
+    //private bool CalcColumn(int num)
+    //{
+    //    int countTrue = 2;
+    //    tmpForCulc = 3;
+    //    foreach (int myNum in numberClicks)
+    //        if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
+    //        {
+    //            countTrue--;
+    //            if (countTrue == 0)
+    //                return true;
+    //        }
 
-        foreach (int myNum in numberClicks)
-            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
-            {
-                countTrue--;
-                if (countTrue == 0)
-                    return true;
-            }
+    //    return false;
+    //}
 
-        return false;
-    }
+    //private bool CalcRow(int num)
+    //{
+    //    int countTrue = 2;
+    //    tmpForCulc = 1;
+
+    //    foreach (int myNum in numberClicks)
+    //        if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
+    //        {
+    //            countTrue--;
+    //            if (countTrue == 0)
+    //                return true;
+    //        }
+
+    //    return false;
+    //}
 
     public Sprite GetShape()
     {
