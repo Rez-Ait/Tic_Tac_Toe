@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -24,6 +24,9 @@ public class GameCTRL : MonoBehaviour
     private Player firstPlayer;
     private Player secondPlayer;
 
+    [field: SerializeField]
+    private ShowWinner showWinner;
+
     void Start()
     {
         statusPlayer = PlayerType.XPlayer;
@@ -31,12 +34,32 @@ public class GameCTRL : MonoBehaviour
         // Create New 2 Player
         firstPlayer = new Player(PlayerType.XPlayer, shapeXPlayer);
         secondPlayer = new Player(PlayerType.OPlayer, shapeOPlayer);
+    }
 
+    List<Btn> btns;
+
+    public void ResetGamePlay()
+    {
+        statusPlayer = PlayerType.XPlayer;
+        stateGamePlay = true;
+
+        // Cash All Btn To btns
+        if (btns == null)
+        {
+            btns = new List<Btn>();
+            btns.AddRange(Transform.FindObjectsOfType<Btn>());
+        }
+
+        // Reset All Btns
+        foreach (Btn myBtn in btns)
+            myBtn.Res();
+
+        firstPlayer = new Player(PlayerType.XPlayer, shapeXPlayer);
+        secondPlayer = new Player(PlayerType.OPlayer, shapeOPlayer);
     }
 
     public Player SetClick(int numberClick)
     {
-
         switch (statusPlayer)
         {
             case PlayerType.XPlayer:
@@ -48,9 +71,12 @@ public class GameCTRL : MonoBehaviour
                 secondPlayer.addNumber(numberClick);
                 return secondPlayer;
         }
-
         return null;
+    }
 
+    public void Win(Player player)
+    {
+        showWinner.init(player);
     }
 
 }
@@ -62,8 +88,16 @@ public class Player
     private Sprite myShape;
     private int countClick;
     private List<int> numberClicks;
-
     private int minimumForWin = 3;
+
+    public PlayerType Type { get { return type; } }
+    public Sprite Shape { get { return myShape; } }
+    public int CountClick { get { return countClick; } }
+    public List<int> NumberClicks { get { return numberClicks; } }
+
+
+
+
     public Player(PlayerType _type, Sprite _shape)
     {
         type = _type;
@@ -71,7 +105,7 @@ public class Player
         countClick = 0;
         numberClicks = new List<int>();
     }
-
+    private GameCTRL gameCTRL;
     public void addNumber(int number)
     {
         countClick++;
@@ -81,8 +115,15 @@ public class Player
         if (countClick >= minimumForWin)
             if (CheckNumbers())
             {
-                Debug.Log("Win");
+                gameCTRL ??= GameCTRL.instance;
+                gameCTRL.Win(this);
             }
+    }
+
+    public char GetType()
+    {
+        string str = type.ToString();
+        return str[0];
     }
 
     private bool CheckNumbers()

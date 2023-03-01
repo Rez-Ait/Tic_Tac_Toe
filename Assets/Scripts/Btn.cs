@@ -10,12 +10,20 @@ public class Btn : MonoBehaviour
     private Player flagPlayer;
     private bool isSetPlayer = false;
 
-    [field:SerializeField]
+    [field: SerializeField]
     private int myNum;
 
     private void Start()
     {
+        isSetPlayer = false;
         myShape = GetComponent<Image>();
+    }
+
+    public void Res()
+    {
+        myShape.sprite = null;
+        isSetPlayer = false;
+        flagPlayer = null;
     }
 
     public void click()
