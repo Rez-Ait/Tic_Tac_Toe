@@ -89,29 +89,59 @@ public class Player
     {
         foreach (int myNum in numberClicks)
         {
-            if (myNum % 3 == 0)
+            if (myNum % 3 == 1)
+                return CalcRow(myNum);
+            if (myNum <= 3)
             {
-               return CalcRow(myNum);
+
             }
         }
+        return false;
+    }
+
+    private bool CalcDiagonalToRight(int num)
+    {
+        int countTrue = 2;
+
+        foreach (int myNum in numberClicks)
+            if (num + 4 == myNum || num + 8 == myNum)
+            {
+                countTrue--;
+                if (countTrue == 0)
+                    return true;
+            }
+
+        return false;
+    }
+
+    private bool CalcColumn(int num)
+    {
+        int countTrue = 2;
+
+        foreach (int myNum in numberClicks)
+            if (num + 3 == myNum || num + 6 == myNum)
+            {
+                countTrue--;
+                if (countTrue == 0)
+                    return true;
+            }
+
         return false;
     }
 
     private bool CalcRow(int num)
     {
         int countTrue = 2;
+
         foreach (int myNum in numberClicks)
-        {
-            if (myNum + 1 == num || myNum + 2 == num)
+            if (num + 1 == myNum || num + 2 == myNum)
             {
                 countTrue--;
+                if (countTrue == 0)
+                    return true;
             }
-        }
 
-        if (countTrue == 0)
-            return true;
-        else
-            return false;
+        return false;
     }
 
     public Sprite GetShape()
