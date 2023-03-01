@@ -92,19 +92,37 @@ public class Player
             if (myNum % 3 == 1)
                 return CalcRow(myNum);
             if (myNum <= 3)
-            {
-
-            }
+                return CalcColumn(myNum);
+            if (myNum == 1)
+                return CalcDiagonalToLeft(myNum);
+            if (myNum == 3)
+                return CalcDiagonalToRight(myNum);
         }
         return false;
     }
 
+    private int tmpForCulc = 4;
     private bool CalcDiagonalToRight(int num)
     {
         int countTrue = 2;
+        tmpForCulc = 2;
+        foreach (int myNum in numberClicks)
+            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
+            {
+                countTrue--;
+                if (countTrue == 0)
+                    return true;
+            }
+
+        return false;
+    }
+    private bool CalcDiagonalToLeft(int num)
+    {
+        int countTrue = 2;
+        tmpForCulc = 4;
 
         foreach (int myNum in numberClicks)
-            if (num + 4 == myNum || num + 8 == myNum)
+            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
             {
                 countTrue--;
                 if (countTrue == 0)
@@ -117,9 +135,9 @@ public class Player
     private bool CalcColumn(int num)
     {
         int countTrue = 2;
-
+        tmpForCulc = 3;
         foreach (int myNum in numberClicks)
-            if (num + 3 == myNum || num + 6 == myNum)
+            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
             {
                 countTrue--;
                 if (countTrue == 0)
@@ -132,9 +150,10 @@ public class Player
     private bool CalcRow(int num)
     {
         int countTrue = 2;
+        tmpForCulc = 1;
 
         foreach (int myNum in numberClicks)
-            if (num + 1 == myNum || num + 2 == myNum)
+            if (num + tmpForCulc == myNum || num + tmpForCulc * 2 == myNum)
             {
                 countTrue--;
                 if (countTrue == 0)
